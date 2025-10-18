@@ -89,14 +89,34 @@ function addItem(newTitle, newStart, newAllDay) {
 // --- Render Calendar ---
 function renderCalendar(events) {
   const calendarEl = document.getElementById('calendar');
-  calendarEl.innerHTML = ''; // Clear previous calendar
+  calendarEl.innerHTML = ''; // Clear previous instance
 
   const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'dayGridMonth',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+    },
+    buttonText: {
+      today: 'Today',
+      month: 'Month',
+      week: 'Week',
+      day: 'Day',
+      list: 'List'
+    },
+    eventDisplay: 'block',
+    displayEventTime: true,
+    eventTimeFormat: { hour: '2-digit', minute: '2-digit', meridiem: 'short' },
+    events: events,
+    editable: false,
+    selectable: false,
     height: 'auto',
-    events: events
-  });
-
+    themeSystem: 'standard',
+    eventColor: '#007BFF',
+    eventTextColor: '#fff',
+    dayMaxEvents: true
+  });  
   calendar.render();
 }
 
