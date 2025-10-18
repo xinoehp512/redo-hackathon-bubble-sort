@@ -8,13 +8,37 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      font-family: Arial;
-    }
-    #calendar {
-      max-width: 900px;
-      margin: 20px auto;
-    }
+     body {
+    font-family: Arial;
+  }
+
+  #calendar {
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px 30px 30px 30px;
+    border-radius: 10px;
+  }
+
+  #addItems {
+    width: 500px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  #taskForm input, #taskForm button {
+    padding: 0.8rem 1rem;
+    border-radius: 0.7rem;
+    border: 1px solid #CED2C3;
+    font-size: 1rem;
+  }
+
+  #taskForm label {
+    font-size: 1rem;
+  }
+</style>
   </style>
 </head>
 <body>
@@ -32,25 +56,60 @@
 
   <div id="calendar"></div>
 
+  <div id="addItems" style="display:flex;flex-direction:column;gap:1rem;width: 500px;">
+    <form id="taskForm" style="display:flex;flex-direction:column;gap:1rem;width: 500px;">
+  <input type="text" name="taskName" placeholder="New Task" required>
+
+  <input type="datetime-local" name="taskDateTime" placeholder="Task Date & Time" required>
+
+  <label style="font-size:1rem;">
+    <input type="checkbox" name="allDay">
+    All Day Task
+  </label>
+
+  <button type="submit" class="get-started-btn" style="margin-top:0.5rem;">Add</button>
+</form>
+  </div>
+
   
   <script>
 
+    function saveEvents(events) {
+  localStorage.setItem('calendarEvents', JSON.stringify(events));
+}
+
+function loadEvents() {
+  const data = localStorage.getItem('calendarEvents');
+  return data ? JSON.parse(data) : [];
+}
+
+
+
+
+    document.getElementById('taskForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent page reload
+
+    const taskName = this.taskName.value;
+    const taskDate = this.taskDateTime.value;
+    const allDay = this.allDay.checked;
+
+    // Call your function
+    addItem(taskName, taskDate, allDay);
+  });
+
+
+    function addItem(newTitle, newStart, newAllDay) {
+        allEvents.push({
+            title: newTitle,
+            start: newStart,
+            allDay: newAllDay
+        })
+        saveEvents(allEvents);
+        renderCalendar(allEvents);
+    }
+
    
-    allEvents = [{
-        title: 'Assignment Name',
-        start: '2025-10-20T23:59:00Z',
-        allDay: false
-    },
-    {
-        title: 'Assignment Name 2',
-        start: '2025-10-22T23:59:00Z',
-        allDay: false
-    },
-    {
-        title: 'Assignment Name 3',
-        start: '2025-10-23T23:59:00Z',
-        allDay: false
-    }];
+    let allEvents = loadEvents();
 
 
     renderCalendar(allEvents);
