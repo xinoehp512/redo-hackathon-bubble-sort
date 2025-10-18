@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Canvas Assignments Calendar</title>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 40px;
+    }
+    #calendar {
+      max-width: 900px;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Canvas Assignments Calendar</h1>
+
+  <div id="calendar"></div>
+
+  
+  <script>
+
+   
+    allEvents = [{
+        title: 'Assignment Name',
+        start: '2025-10-20T23:59:00Z',
+        allDay: false
+    },
+    {
+        title: 'Assignment Name 2',
+        start: '2025-10-22T23:59:00Z',
+        allDay: false
+    },
+    {
+        title: 'Assignment Name 3',
+        start: '2025-10-23T23:59:00Z',
+        allDay: false
+    }];
+
+
+    renderCalendar(allEvents);
+    function renderCalendar(events) {
+      const calendarEl = document.getElementById('calendar');
+      document.getElementById('setup').style.display = 'none';
+
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: events
+      });
+
+      calendar.render();
+    }
+  </script>
+</body>
+</html>

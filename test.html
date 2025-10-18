@@ -43,41 +43,11 @@
   </div>
 
   <div id="calendar"></div>
-<!-- 7407~F6rLCVVwBkQWmY7aEEfYGRW64CK3VNmHQt4aV2XRhLEfBQEctWT6FrXQUXmeKYUe -->
+
+  
   <script>
-    // async function loadAssignments() {
-    //   const token = document.getElementById('canvasToken').value.trim();
-    //   const domain = document.getElementById('canvasDomain').value.trim();
-    //   const courseIds = document.getElementById('courseIds').value.trim().split(',').map(id => id.trim());
-    //   const allEvents = [];
 
-    //   for (const courseId of courseIds) {
-    //     const response = await fetch(`https://${domain}/courses/${courseId}/assignments`, {
-    //       headers: {
-    //         'Authorization': `Bearer ${token}`
-    //       }
-    //     });
-
-    //     if (!response.ok) {
-    //       alert(`Failed to fetch course ${courseId}: ${response.statusText}`);
-    //       continue;
-    //     }
-
-    //     const assignments = await response.json();
-
-    //     for (const a of assignments) {
-    //       if (a.due_at) {
-    //         allEvents.push({
-    //           title: a.name,
-    //           start: a.due_at,
-    //           allDay: false
-    //         });
-    //       }
-    //     }
-    //   }
-
-    //   renderCalendar(allEvents);
-    // }
+   
     allEvents = [{
         title: 'Assignment Name',
         start: '2025-10-20T23:59:00Z',
