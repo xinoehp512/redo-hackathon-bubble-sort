@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasks | Bubble Sort Student Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+    }
+    .flex-center {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: linear-gradient(135deg, #F6F6F6 0%, #E4DCCF 100%);
+    }
+    .tasks-window {
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 6px 20px rgba(71,82,94,0.13);
+      width: 480px;
+      max-width: 95vw;
+      padding: 2.5rem 2rem 1.2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      margin-bottom: 1.1rem;
+    }
+    .tasks-header {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #47525E;
+      text-align: center;
+      letter-spacing: 1px;
+      margin-bottom: 1.3rem;
+    }
+    .tasks-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 0.15rem; /* Reduced space between rows */
+      font-family: 'Quicksand', Arial, sans-serif;
+      margin: 0 auto;
+    }
+    .tasks-table th {
+      font-size: 1.06rem;
+      color: #47525E;
+      font-weight: 700;
+      background: #F6F6F6;
+      padding: 0.7rem 0.5rem;
+      border-radius: 0.7rem;
+      border: none;
+      text-align: center;
+    }
+    .tasks-table td {
+      background: #fafafa;
+      font-size: 1.04rem;
+      padding: 0.48rem 0.5rem; /* Reduced row height */
+      border-radius: 0.7rem;
+      border: none;
+      text-align: center;
+    }
+    .tasks-table input, .tasks-table select {
+      font-size: 1.03rem;
+      font-family: 'Quicksand', Arial, sans-serif;
+      border: 1px solid #CED2C3;
+      border-radius: 0.5rem;
+      padding: 0.40rem 0.5rem;
+      background: #fff;
+      color: #222;
+      max-width: 95%;
+      text-align: center;
+    }
+    .add-row-btn {
+      margin: 1rem auto 0 auto;
+      display: block;
+      background: #47525E;
+      color: #fff;
+      padding: 0.58rem 1.5rem;
+      font-size: 1.04rem;
+      border-radius: 2rem;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      box-shadow: 0 4px 10px rgb(71,82,94,0.06);
+    }
+    .add-row-btn:hover {
+      background: #B7B7A4;
+      color: #47525E;
+    }
+    .continue-link {
+      display: block;
+      width: fit-content;
+      margin: 1.4rem auto 0 auto;
+      text-decoration: none;
+      color: #fff;
+      background: #47525E;
+      padding: 0.79rem 2rem;
+      border-radius: 2rem;
+      font-weight: 700;
+      font-size: 1.07rem;
+      transition: background 0.2s, color 0.2s;
+      box-shadow: 0 4px 16px rgb(71,82,94,0.06);
+      text-align: center;
+    }
+    .continue-link:hover {
+      background: #B7B7A4;
+      color: #47525E;
+    }
+    @media (max-width: 600px) {
+      .tasks-window {
+        padding: 1.2rem 0.4rem 1rem 0.4rem;
+        width: 99vw;
+      }
+      .tasks-header { font-size: 1.13rem; }
+      .tasks-table th, .tasks-table td { font-size: 0.96rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="site-title">Bubble Sort Student Hub</span>
+    <nav class="nav-links">
+      <a href="/calendar">Calendar</a>
+      <a href="/blog">Student Blog</a>
+      <a href="/signin">Sign In</a>
+    </nav>
+  </header>
+  <div class="flex-center">
+    <div class="tasks-window">
+      <div class="tasks-header">Tasks</div>
+      <table class="tasks-table" id="tasks-table">
+        <thead>
+          <tr>
+            <th>Class</th>
+            <th>Assignment Name</th>
+            <th>Due Date</th>
+          </tr>
+        </thead>
+        <tbody id="tasks-body">
+          <tr>
+            <td><input type="text" placeholder="Class name"></td>
+            <td><input type="text" placeholder="Assignment"></td>
+            <td><input type="date"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="add-row-btn" id="add-row-btn">Add Task</button>
+    </div>
+    <a href="calendar.html" class="continue-link">Continue to Calendar</a>
+  </div>
+  <script>
+    document.getElementById("add-row-btn").addEventListener("click", function(){
+      let tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><input type="text" placeholder="Class name"></td>
+        <td><input type="text" placeholder="Assignment"></td>
+        <td><input type="date"></td>
+      `;
+      document.getElementById('tasks-body').appendChild(tr);
+      tr.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    });
+  </script>
+</body>
+</html>
