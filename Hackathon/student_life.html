@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Life | Bubble Sort Student Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      --logo-size: 1240px;
+      position: relative;
+      min-height: 100vh;
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: linear-gradient(135deg, #F6F6F6 0%, #E4DCCF 100%);
+    }
+    /* University logo background */
+    .uni-logo-bg {
+      position: fixed;
+      left: 50%;
+      top: 56%;
+      transform: translate(-50%, -50%);
+      width: var(--logo-size);
+      height: var(--logo-size);
+      max-width: 180vw;
+      max-height: 160vh;
+      opacity: 0.555;
+      z-index: 0;
+      pointer-events: none;
+      object-fit: contain;
+      mix-blend-mode: luminosity;
+    }
+    /* Welcome card, calendar, events: raised above logo */
+    .welcome-life, .calendar-section, .event-list-section {
+      position: relative;
+      z-index: 1;
+      background: #fff;
+    }
+    /* ...rest styles unchanged... */
+    .welcome-life {
+      max-width: 580px;
+      margin: 2.4rem auto 0.7rem auto;
+      border-radius: 1rem;
+      box-shadow: 0 6px 20px rgba(71,82,94,0.09);
+      padding: 2.2rem 2rem 2rem 2rem;
+      text-align: center;
+    }
+    .welcome-life h1 {
+      font-size: 2.2rem;
+      color: #47525E;
+      margin-bottom: 1.1rem;
+    }
+    .welcome-life p {
+      font-size: 1.18rem;
+      color: #555;
+      margin-bottom: 0;
+    }
+    .calendar-section {
+      max-width: 580px;
+      margin: 1.2rem auto 1.5rem auto;
+      border-radius: 1.2rem;
+      box-shadow: 0 6px 20px rgba(71,82,94,0.13);
+      padding: 2.2rem 2rem 2rem 2rem;
+    }
+    .calendar-title {
+      font-size: 1.35rem;
+      color: #47525E;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1.3rem;
+    }
+    .calendar-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.7rem;
+    }
+    .calendar-tab {
+      background: #B7B7A4;
+      color: #47525E;
+      font-weight: 700;
+      padding: 0.4rem 1.1rem;
+      border-radius: 1.2rem;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s, color 0.2s;
+      font-size: 1rem;
+    }
+    .calendar-tab:hover {
+      background: #CED2C3;
+      color: #47525E;
+    }
+    .calendar-month-label {
+      font-size: 1.08rem;
+      color: #47525E;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .calendar-widget {
+      width: 100%;
+      text-align: center;
+    }
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.19rem;
+      margin-bottom: 1px;
+    }
+    .calendar-day, .calendar-date {
+      font-size: 1rem;
+      color: #47525E;
+      background: #F6F6F6;
+      border-radius: 0.35rem;
+      padding: 0.4rem 0;
+    }
+    .calendar-day {
+      font-weight: 700;
+      background: transparent;
+      border-radius: 0;
+      padding: 0.45rem 0;
+    }
+    .calendar-date {
+      background: #F7EFE6;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+      min-height: 2.2em;
+    }
+    .calendar-date.event-day-dot::after {
+      content: '';
+      display: block;
+      width: 7px;
+      height: 7px;
+      margin: 4px auto 0 auto;
+      background: #B7B7A4;
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+    .calendar-date:hover {
+      background: #B7B7A4;
+      color: #fff;
+    }
+    .calendar-date.selected {
+      background: #47525E;
+      color: #fff;
+    }
+    .events-today {
+      text-align: left;
+      margin: 1.35rem 0 0.3rem 0;
+      padding: 0.7rem 1rem;
+      background: #F6F6F6;
+      border-radius: 0.7rem;
+      color: #47525E;
+    }
+    .events-today-title {
+      font-weight: 700;
+      font-size: 1.09rem;
+      margin-bottom: 7px;
+    }
+    .event-today-item {
+      font-size: 1.02rem;
+      margin-bottom: 4px;
+      color: #555;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .add-mini-btn {
+      background: #B7B7A4;
+      color: #47525E;
+      border-radius: 50%;
+      border: none;
+      width: 1.7em;
+      height: 1.7em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.13em;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 0.4em;
+      transition: background 0.2s;
+    }
+    .add-mini-btn:disabled {
+      background: #CED2C3;
+      color: #888;
+      cursor: not-allowed;
+    }
+    .event-list-section {
+      max-width: 580px;
+      margin: 0 auto 2rem auto;
+      border-radius: 1.2rem;
+      box-shadow: 0 6px 20px rgba(71,82,94,0.13);
+      padding: 1.1rem 2rem 1.5rem 2rem;
+      position: relative;
+      z-index: 1;
+      background: #fff;
+    }
+    .event-list-title {
+      font-size: 1.1rem;
+      color: #47525E;
+      font-weight: 700;
+      text-align: left;
+      margin-bottom: 0.7rem;
+    }
+    .event-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      min-height: 11em;
+    }
+    .event-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fafafa;
+      border-radius: 0.7rem;
+      box-shadow: 0 2px 8px rgba(71,82,94,0.06);
+      margin-bottom: 0.5rem;
+      padding: 0.52rem 1.1rem;
+      font-size: 1.01rem;
+    }
+    .event-details {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+    .event-title {
+      font-weight: 700;
+      color: #47525E;
+      margin-bottom: 3px;
+    }
+    .event-meta {
+      color: #555;
+      font-size: 0.97rem;
+    }
+    .add-event-btn {
+      background: #B7B7A4;
+      color: #47525E;
+      font-size: 1.25rem;
+      border-radius: 50%;
+      border: none;
+      width: 1.7em;
+      height: 1.7em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      font-weight: bold;
+    }
+    .add-event-btn:disabled {
+      background: #CED2C3;
+      color: #888;
+      cursor: not-allowed;
+    }
+    .event-pager {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.6em;
+      margin-top: 0.7em;
+    }
+    .pager-arrow {
+      background: #B7B7A4;
+      color: #47525E;
+      font-size: 1.15em;
+      border-radius: 55%;
+      font-weight: bold;
+      border: none;
+      width: 2.2em;
+      height: 2.2em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .pager-arrow:disabled {
+      background: #CED2C3;
+      color: #888;
+      cursor: not-allowed;
+    }
+    .pager-info {
+      color: #47525E;
+      font-weight: 700;
+      font-size: 1.05em;
+      min-width: 9em;
+      text-align: center;
+      font-family: 'Quicksand', Arial, sans-serif;
+    }
+    @media (max-width: 700px) {
+      .welcome-life, .calendar-section, .event-list-section {
+        max-width: 98vw;
+        padding: 1rem 0.4rem 1rem 0.4rem;
+      }
+      .uni-logo-bg {
+        width: 95vw;
+        height: auto;
+        max-height: 40vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- University logo background -->
+  <img src="BYU_Background.png" alt="University Logo" class="uni-logo-bg">
+  <header>
+    <div class="header-group">
+      <img src="Bubble_Logo.png" alt="Bubble Sort Student Hub Logo" class="logo-img">
+      <span class="site-title">Bubble Sort Student Hub</span>
+    </div>
+    <nav class="nav-links">
+      <a href="/calendar">Calendar</a>
+      <a href="student_life.html">Student Life</a>
+      <a href="/signin">Sign In</a>
+    </nav>
+  </header>
+  <main>
+    <div class="welcome-life">
+      <h1>Welcome to Student Life!</h1>
+      <p>
+        This is your home for campus events, activities, and opportunities.<br>
+        Take a break from studying and explore what's happening on campus! Whether it's workshops, socials, or quick meetups, there's always something going on!<br>
+        Add upcoming events to your personal school calendar and enjoy your best campus life.
+      </p>
+    </div>
+    <div class="calendar-section">
+      <div class="calendar-title">Student Events</div>
+      <div class="calendar-nav">
+        <button class="calendar-tab" id="prevMonthBtn">&lt;</button>
+        <span class="calendar-month-label" id="calendarMonthLabel">Month Year</span>
+        <button class="calendar-tab" id="nextMonthBtn">&gt;</button>
+      </div>
+      <div class="calendar-widget" id="calendarWidget"></div>
+      <div class="events-today" id="eventsToday" style="display:none;"></div>
+    </div>
+    <div class="event-list-section">
+      <div class="event-list-title">Upcoming Events</div>
+      <ul class="event-list" id="event-list"></ul>
+      <div class="event-pager">
+        <button id="eventPrevBtn" class="pager-arrow">&lt;</button>
+        <span id="pagerInfo" class="pager-info"></span>
+        <button id="eventNextBtn" class="pager-arrow">&gt;</button>
+      </div>
+    </div>
+  </main>
+  <script>
+    // Simpler, lighter events
+    const events = [
+      { title: "Welcome Bagels", date: "2025-10-01", time: "8:00 AM", location: "Café Patio" },
+      { title: "Yoga Morning", date: "2025-10-02", time: "7:30 AM", location: "Campus Lawn" },
+      { title: "Open Mic", date: "2025-10-04", time: "6:30 PM", location: "Commons Hall" },
+      { title: "Games & Pizza", date: "2025-10-05", time: "6:00 PM", location: "Dorm Lounge" },
+      { title: "Study Tips", date: "2025-10-07", time: "3:00 PM", location: "Library 210" },
+      { title: "Movie @ Auditorium", date: "2025-10-09", time: "7:00 PM", location: "Auditorium" },
+      { title: "Campus Walk", date: "2025-10-10", time: "11:00 AM", location: "Main Entrance" },
+      { title: "Code Chat", date: "2025-10-11", time: "10:00 AM", location: "Tech Lab" },
+      { title: "Poetry Circle", date: "2025-10-16", time: "8:00 PM", location: "Café Nook" },
+      { title: "Art Fun", date: "2025-10-18", time: "2:00 PM", location: "Art B" },
+      { title: "Book Break", date: "2025-10-20", time: "4:15 PM", location: "Library" },
+      { title: "Career Chats", date: "2025-10-22", time: "12:00 PM", location: "Expo Hall" },
+      { title: "Halloween Bash", date: "2025-10-23", time: "8:00 PM", location: "Main Gym" },
+      { title: "Foodies Fest", date: "2025-10-29", time: "1:00 PM", location: "Student Plaza" },
+      { title: "Spooky Walk", date: "2025-10-31", time: "9:00 PM", location: "Old Hall" }
+    ];
+
+    // Calendar logic
+    let today = new Date();
+    let currentMonth = today.getMonth();
+    let currentYear = today.getFullYear();
+    function renderCalendar(month, year) {
+      const calendarWidget = document.getElementById("calendarWidget");
+      const calendarMonthLabel = document.getElementById("calendarMonthLabel");
+
+      // Set month label
+      const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      calendarMonthLabel.textContent = `${monthNames[month]} ${year}`;
+      // Clear calendar
+      calendarWidget.innerHTML = '';
+      // Day names
+      const dayNames = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      let daysRow = document.createElement('div');
+      daysRow.className = 'calendar-days';
+      dayNames.forEach(dn => {
+        let dayDiv = document.createElement('div');
+        dayDiv.className = 'calendar-day';
+        dayDiv.textContent = dn;
+        daysRow.appendChild(dayDiv);
+      });
+      calendarWidget.appendChild(daysRow);
+      // Get first day of the month
+      let firstDay = new Date(year,month,1).getDay();
+      let daysInMonth = new Date(year,month+1,0).getDate();
+      // Create day grid
+      let dateNum = 1;
+      for(let row=0; row<6; row++) {
+        let weekRow = document.createElement('div');
+        weekRow.className = 'calendar-days';
+        for(let col=0; col<7; col++) {
+          let cell = document.createElement('div');
+          if(row === 0 && col < firstDay) {
+            cell.innerHTML = '';
+            weekRow.appendChild(cell);
+          } else if(dateNum > daysInMonth) {
+            cell.innerHTML = '';
+            weekRow.appendChild(cell);
+          } else {
+            cell.className = 'calendar-date';
+            let dateStr = `${year}-${String(month+1).padStart(2,"0")}-${String(dateNum).padStart(2,"0")}`;
+            // If there's an event
+            if(events.some(ev=>ev.date===dateStr)) {
+              cell.classList.add('event-day-dot');
+              cell.title = events.filter(e=>e.date===dateStr).map(e=>e.title).join(", ");
+            }
+            cell.textContent = dateNum;
+            cell.onclick = ()=>showEventsForDate(dateStr, cell);
+            weekRow.appendChild(cell);
+            dateNum++;
+          }
+        }
+        calendarWidget.appendChild(weekRow);
+        if(dateNum > daysInMonth) break;
+      }
+      document.getElementById("eventsToday").style.display = "none";
+    }
+    function showEventsForDate(dateStr, cell) {
+      document.querySelectorAll(".calendar-date").forEach(n=>n.classList.remove("selected"));
+      cell.classList.add("selected");
+      // Show events
+      let found = events.filter(ev=>ev.date===dateStr);
+      let eventsToday = document.getElementById("eventsToday");
+      if(found.length == 0) {
+        eventsToday.innerHTML = "<span class='events-today-title'>No events for this day!</span>";
+      } else {
+        eventsToday.innerHTML = "<span class='events-today-title'>Events on this day:</span>";
+        found.forEach(ev => {
+          let div = document.createElement("div");
+          div.className = "event-today-item";
+          div.innerHTML = `
+            <span>${ev.title} <span style="color:#888;">${ev.time} · ${ev.location}</span></span>
+            <button class="add-mini-btn" onclick="this.textContent='✓';this.disabled=true;">+</button>
+          `;
+          eventsToday.appendChild(div);
+        });
+      }
+      eventsToday.style.display = "block";
+    }
+    document.getElementById("prevMonthBtn").onclick = function(){
+      if(currentMonth === 0) { currentMonth = 11; currentYear--; }
+      else { currentMonth--; }
+      renderCalendar(currentMonth, currentYear);
+    };
+    document.getElementById("nextMonthBtn").onclick = function(){
+      if(currentMonth === 11) { currentMonth = 0; currentYear++; }
+      else { currentMonth++; }
+      renderCalendar(currentMonth, currentYear);
+    };
+
+    // Event list pagination (5 per page)
+    let eventPage = 0;
+    const perPage = 5;
+    function renderEventList() {
+      let ul = document.getElementById("event-list");
+      ul.innerHTML = '';
+      let futureEvents = events.filter(e=>{
+        let evDate = new Date(e.date);
+        let now = new Date();
+        return evDate >= new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      });
+      let totalPages = Math.ceil(futureEvents.length / perPage);
+      let startIdx = eventPage * perPage;
+      let endIdx = startIdx + perPage;
+      let viewEvents = futureEvents.slice(startIdx, endIdx);
+      viewEvents.forEach(ev=>{
+        let li = document.createElement("li");
+        li.className = "event-item";
+        li.innerHTML = `
+          <div class="event-details">
+            <span class="event-title">${ev.title}</span>
+            <span class="event-meta">${ev.date.replace(/^2025-10-/,"Oct ")} · ${ev.time} · ${ev.location}</span>
+          </div>
+         <button class="add-event-btn" onclick="this.textContent='✓';this.disabled=true;">+</button> <!-- This is the line to incorperate into calendar-->
+        `;
+        ul.appendChild(li);
+      });
+      document.getElementById("pagerInfo").textContent = `Showing ${startIdx+1}-${Math.min(endIdx, futureEvents.length)} of ${futureEvents.length}`;
+      document.getElementById("eventPrevBtn").disabled = (eventPage <= 0);
+      document.getElementById("eventNextBtn").disabled = (eventPage >= totalPages-1);
+    }
+    document.getElementById("eventPrevBtn").onclick = function(){
+      if(eventPage > 0) eventPage--;
+      renderEventList();
+    };
+    document.getElementById("eventNextBtn").onclick = function(){
+      let futureEvents = events.filter(e=>{
+        let evDate = new Date(e.date);
+        let now = new Date();
+        return evDate >= new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      });
+      let totalPages = Math.ceil(futureEvents.length / perPage);
+      if(eventPage < totalPages-1) eventPage++;
+      renderEventList();
+    };
+    renderCalendar(currentMonth, currentYear);
+    renderEventList();
+  </script>
+</body>
+</html>
