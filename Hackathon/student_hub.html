@@ -12,11 +12,11 @@
  <header>
   <div class="header-group">
     <img src="Bubble_Logo.png" alt="Bubble Sort Student Hub Logo" class="logo-img">
-    <span class="site-title">Bubble Sort Student Hub</span>
+<a href="student_hub.html" class="site-title">Bubble Sort Student Hub</a>
   </div>
   <nav class="nav-links">
     <a href="calendar.html">Calendar</a>
-    <a href="/blog">Student Blog</a>
+    <a href="student_life.html">Student Life</a>
     <a href="/signin">Sign In</a>
   </nav>
 </header>
@@ -30,5 +30,57 @@
       <a href="get-started.html" class="get-started-btn">Get Started</a>
     </div>
   </main>
+<!-- ChatGPT Chatbot Widget -->
+<div id="chatbot-widget" style="position:fixed;bottom:24px;right:24px;width:320px;max-width:95vw;height:420px;background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(71,82,94,.18);display:none;z-index:1002;flex-direction:column;">
+  <div style="background:#47525E;color:#fff;padding:13px 16px;font-weight:700;border-radius:16px 16px 0 0;">Student Hub Assistant</div>
+  <div id="chatbot-messages" style="flex:1;height:300px;overflow-y:auto;padding:14px 10px 8px 10px;"></div>
+  <div style="display:flex;gap:8px;padding:8px 10px;">
+    <input id="chatbot-input" type="text" placeholder="Ask me anything..." style="flex:1;border-radius:20px;border:1px solid #CED2C3;padding:9px;">
+    <button onclick="sendChatbotMessage()" style="background:#47525E;color:#fff;border:none;border-radius:50%;width:36px;height:36px;font-size:18px;font-weight:700;cursor:pointer;">→</button>
+  </div>
+</div>
+<button id="chatbot-open" onclick="toggleChatbot()" style="position:fixed;bottom:26px;right:32px;width:60px;height:60px;border-radius:50%;background:#47525E;color:#fff;border:none;font-size:28px;box-shadow:0 4px 16px rgba(71,82,94,.11);z-index:1003;">💬</button>
+<script>
+function toggleChatbot() {
+  var widget = document.getElementById('chatbot-widget');
+  var btn = document.getElementById('chatbot-open');
+  if(widget.style.display === 'none') {
+    widget.style.display = 'flex'; btn.style.display = 'none';
+  } else {
+    widget.style.display = 'none'; btn.style.display = '';
+  }
+}
+async function sendChatbotMessage() {
+  const input = document.getElementById('chatbot-input');
+  const chat = document.getElementById('chatbot-messages');
+  let msg = input.value.trim();
+  if(!msg) return;
+  chat.innerHTML += `<div style="text-align:right;margin:7px 0;"><span style="background:#47525E;color:#fff;padding:8px 13px;border-radius:12px;display:inline-block;">${msg}</span></div>`;
+  input.value = '';
+  chat.scrollTop = chat.scrollHeight;
+
+  // Replace the API endpoint below with YOUR actual backend endpoint!
+  try {
+    const resp = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        message: msg,
+        context: "You are the chatbot assistant for Bubble Sort Student Hub, a student organization platform for tasks, events, and Canvas integration. Help guide students and answer questions about the platform."
+      })
+    });
+    const data = await resp.json();
+    chat.innerHTML += `<div style="text-align:left;margin:7px 0;"><span style="background:#F6F6F6;color:#47525E;padding:8px 13px;border-radius:12px;display:inline-block;">${data.reply}</span></div>`;
+    chat.scrollTop = chat.scrollHeight;
+  } catch {
+    chat.innerHTML += `<div style="text-align:left;margin:7px 0;"><span style="background:#FFD7D7;color:#BF2A2A;padding:8px 13px;border-radius:12px;display:inline-block;">Sorry, I can't connect right now.</span></div>`;
+    chat.scrollTop = chat.scrollHeight;
+  }
+}
+document.getElementById('chatbot-input').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') sendChatbotMessage();
+});
+</script>
+
 </body>
 </html>
