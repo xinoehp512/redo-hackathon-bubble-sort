@@ -45,9 +45,9 @@
   <header>
     <span class="site-title">Bubble Sort Student Hub</span>
     <nav class="nav-links">
-      <a href="Hackathon\Calendar.html">Calendar</a>
+      <a href="Calendar.html">Calendar</a>
       <a href="/blog">Student Blog</a>
-      <a href="Hackathon\get-started.html">Sign In</a>
+      <a href="get-started.html">Sign In</a>
     </nav>
   </header>  
   
@@ -72,58 +72,8 @@
   </div>
 
   
-  <script>
-
-    function saveEvents(events) {
-  localStorage.setItem('calendarEvents', JSON.stringify(events));
-}
-
-function loadEvents() {
-  const data = localStorage.getItem('calendarEvents');
-  return data ? JSON.parse(data) : [];
-}
+  <script src="calendar.js"></script>
 
 
-
-
-    document.getElementById('taskForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent page reload
-
-    const taskName = this.taskName.value;
-    const taskDate = this.taskDateTime.value;
-    const allDay = this.allDay.checked;
-
-    // Call your function
-    addItem(taskName, taskDate, allDay);
-  });
-
-
-    function addItem(newTitle, newStart, newAllDay) {
-        allEvents.push({
-            title: newTitle,
-            start: newStart,
-            allDay: newAllDay
-        })
-        saveEvents(allEvents);
-        renderCalendar(allEvents);
-    }
-
-   
-    let allEvents = loadEvents();
-
-
-    renderCalendar(allEvents);
-    function renderCalendar(events) {
-      const calendarEl = document.getElementById('calendar');
-      document.getElementById('setup').style.display = 'none';
-
-      const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        events: events
-      });
-
-      calendar.render();
-    }
-  </script>
 </body>
 </html>
