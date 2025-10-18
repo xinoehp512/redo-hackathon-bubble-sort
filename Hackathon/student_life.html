@@ -311,9 +311,9 @@
       <img src="Bubble_Logo.png" alt="Bubble Sort Student Hub Logo" class="logo-img">
     <a href="student_hub.html" class="site-title">Bubble Sort Student Hub</a>    </div>
     <nav class="nav-links">
-      <a href="/calendar">Calendar</a>
+      <a href="Calendar.html">Calendar</a>
       <a href="student_life.html">Student Life</a>
-      <a href="/signin">Sign In</a>
+      <a href="get-started.html">Sign In</a>
     </nav>
   </header>
   <main>
@@ -345,6 +345,9 @@
       </div>
     </div>
   </main>
+
+<script src="calendar.js"></script>
+
   <script>
     // Simpler, lighter events
     const events = [
@@ -480,7 +483,8 @@
             <span class="event-title">${ev.title}</span>
             <span class="event-meta">${ev.date.replace(/^2025-10-/,"Oct ")} · ${ev.time} · ${ev.location}</span>
           </div>
-         <button class="add-event-btn" onclick="this.textContent='✓';this.disabled=true;">+</button> <!-- This is the line to incorperate into calendar-->
+         <button class="add-event-btn" onclick='saveToCalendar({ title: "${ev.title}", date: "${ev.date}", time: "${ev.time}" }); this.textContent="✓"; this.disabled=true;'>+</button>
+ <!-- This is the line to incorperate into calendar-->
         `;
         ul.appendChild(li);
       });
@@ -505,5 +509,29 @@
     renderCalendar(currentMonth, currentYear);
     renderEventList();
   </script>
+
+  <script>
+  function saveToCalendar(event) {
+    let calendarEvents = JSON.parse(localStorage.getItem('calendarEvents')) || [];
+
+    calendarEvents.push({
+      title: event.title,
+      start: `${event.date}T${convertTo24Hour(event.time)}`,
+      allDay: false
+    });
+
+    localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+  }
+
+  function convertTo24Hour(timeStr) {
+    // Converts "6:30 PM" to "18:30"
+    const [time, modifier] = timeStr.split(' ');
+    let [hours, minutes] = time.split(':');
+    if (modifier === 'PM' && hours !== '12') hours = parseInt(hours) + 12;
+    if (modifier === 'AM' && hours === '12') hours = '00';
+    return `${hours}:${minutes}`;
+  }
+</script>
+
 </body>
 </html>

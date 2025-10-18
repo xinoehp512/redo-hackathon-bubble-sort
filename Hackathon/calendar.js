@@ -1,13 +1,15 @@
-function saveEvents(events) {
-  localStorage.setItem('calendarEvents', JSON.stringify(events));
-}
-
 function loadEvents() {
-  const data = localStorage.getItem('calendarEvents');
-  return data ? JSON.parse(data) : [];
+  const stored = localStorage.getItem('calendarEvents');
+  return stored ? JSON.parse(stored) : [];
 }
 
 let allEvents = loadEvents();
+
+
+
+function saveEvents(events) {
+  localStorage.setItem('calendarEvents', JSON.stringify(events));
+}
 
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('taskForm');
