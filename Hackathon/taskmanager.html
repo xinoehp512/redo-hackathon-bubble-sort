@@ -41,38 +41,42 @@
     }
     .tasks-table {
       width: 100%;
-      border-collapse: separate;
-      border-spacing: 0 0.15rem; /* Reduced space between rows */
+      border-collapse: collapse;
       font-family: 'Quicksand', Arial, sans-serif;
       margin: 0 auto;
+      text-align: center;
+    }
+    .tasks-table th, .tasks-table td {
+      text-align: center;
+      vertical-align: middle;
     }
     .tasks-table th {
       font-size: 1.06rem;
       color: #47525E;
       font-weight: 700;
       background: #F6F6F6;
-      padding: 0.7rem 0.5rem;
+      padding: 0.58rem 0.5rem;
       border-radius: 0.7rem;
       border: none;
-      text-align: center;
     }
     .tasks-table td {
       background: #fafafa;
-      font-size: 1.04rem;
-      padding: 0.48rem 0.5rem; /* Reduced row height */
+      font-size: 1.03rem;
+      padding: 0.32rem 0.5rem;
       border-radius: 0.7rem;
       border: none;
-      text-align: center;
     }
-    .tasks-table input, .tasks-table select {
+    .tasks-table input[type="text"], .tasks-table input[type="date"] {
       font-size: 1.03rem;
       font-family: 'Quicksand', Arial, sans-serif;
       border: 1px solid #CED2C3;
       border-radius: 0.5rem;
-      padding: 0.40rem 0.5rem;
+      padding: 0.35rem 0.5rem;
       background: #fff;
       color: #222;
-      max-width: 95%;
+      width: 90%;
+      margin: 0 auto;
+      display: block;
       text-align: center;
     }
     .add-row-btn {
@@ -124,7 +128,10 @@
 </head>
 <body>
   <header>
+    <div class="header-group">
+    <img src="Bubble_Logo.png" alt="Bubble Sort Student Hub Logo" class="logo-img">
     <span class="site-title">Bubble Sort Student Hub</span>
+  </div>
     <nav class="nav-links">
       <a href="/calendar">Calendar</a>
       <a href="/blog">Student Blog</a>
@@ -154,17 +161,6 @@
     </div>
     <a href="calendar.html" class="continue-link">Continue to Calendar</a>
   </div>
-  <script>
-    document.getElementById("add-row-btn").addEventListener("click", function(){
-      let tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td><input type="text" placeholder="Class name"></td>
-        <td><input type="text" placeholder="Assignment"></td>
-        <td><input type="date"></td>
-      `;
-      document.getElementById('tasks-body').appendChild(tr);
-      tr.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
