@@ -1,0 +1,137 @@
+/* General resets and font */
+body {
+  margin: 0;
+  font-family: 'Quicksand', Arial, sans-serif;
+  background: linear-gradient(135deg, #F6F6F6 0%, #E4DCCF 100%);
+  color: #222;
+  min-height: 100vh;
+}
+
+/* Header and logo */
+header {
+  background: #47525E;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  box-shadow: 0 4px 12px rgba(71,82,94,0.06);
+}
+
+.logo, .site-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #FFF;
+  letter-spacing: 2px;
+  font-family: 'Quicksand', Arial, sans-serif;
+}
+
+/* Navigation bar links */
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+.nav-links a {
+  text-decoration: none;
+  color: #FFF;
+  background: #B7B7A4;
+  padding: 0.6rem 1.3rem;
+  border-radius: 2rem;
+  font-weight: 700;
+  transition: background 0.3s, color 0.3s;
+}
+.nav-links a:hover {
+  background: #CED2C3;
+  color: #47525E;
+}
+
+/* Main layout & welcome section */
+main {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+.welcome {
+  background: #fafafa;
+  display: inline-block;
+  margin: 3rem auto 1rem auto;
+  padding: 3rem 4rem;
+  border-radius: 2rem;
+  box-shadow: 0 6px 20px rgba(71,82,94,0.07);
+  max-width: 560px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #47525E;
+  margin-bottom: 1rem;
+  font-family: 'Quicksand', Arial, sans-serif;
+}
+h2, h3 {
+  font-family: 'Quicksand', Arial, sans-serif;
+  color: #47525E;
+}
+p {
+  font-size: 1.3rem;
+  color: #555;
+  margin-top: 0.5rem;
+}
+
+/* Get Started button */
+.get-started-btn {
+  display: inline-block;
+  margin-top: 2rem;
+  background: #47525E;
+  color: #fff;
+  padding: 1rem 2.8rem;
+  font-size: 1.2rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  font-weight: 700;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 4px 16px rgb(71,82,94,0.05);
+}
+.get-started-btn:hover {
+  background: #B7B7A4;
+  color: #47525E;
+}
+
+/* Centered box for get-started.html */
+.center-box {
+  width: 340px;
+  height: 200px;
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 6px 20px rgba(71,82,94,0.12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  color: #47525E;
+  text-align: center;
+}
+
+/* Utility for flex centering big sections (for get-started.html body) */
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #F6F6F6 0%, #E4DCCF 100%);
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.2rem 1rem;
+  }
+  .welcome {
+    padding: 2rem 1rem;
+    max-width: 95vw;
+  }
+  .center-box {
+    width: 90vw;
+    height: 180px;
+    padding: 1rem;
+  }
+}
